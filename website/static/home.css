@@ -409,12 +409,12 @@
     background-color: #f8fafd;
 }
 
+
 .main-content .header {
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 15px;
 }
 
 #search-form {
@@ -430,6 +430,7 @@
     background-color: #e9eef6;
     border-radius: 20px;
     padding: 10px 20px;
+    flex-grow: 1;
 }
 
 .search-bar img {
@@ -531,9 +532,7 @@
 
 /* Theme Toggle & Dark Mode */
 /* Theme Toggle & Dark Mode */
-.main-content .header {
-    grid-template-columns: auto auto 1fr !important;
-}
+
 
 .theme-toggle-btn {
     background: none;
@@ -547,6 +546,7 @@
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s;
+    flex-shrink: 0;
 }
 
 .theme-toggle-btn:hover {
