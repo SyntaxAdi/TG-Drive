@@ -92,4 +92,35 @@ document.addEventListener('DOMContentLoaded', function () {
             getCurrentDirectory()
         }
     }
+
+    // Theme Toggle Logic
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
+
+    // Check local storage
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark-mode');
+        updateIcon(true);
+    }
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateIcon(isDark);
+        });
+    }
+
+    function updateIcon(isDark) {
+        if (!themeIcon) return;
+        if (isDark) {
+            // Sun Icon (Material Design Wb_sunny)
+            themeIcon.innerHTML = '<path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280Zm0-40q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47ZM480-80q-17 0-28.5-11.5T440-120v-80q0-17 11.5-28.5T480-240q17 0 28.5 11.5T520-200v80q0 17-11.5 28.5T480-80Zm-360-360q-17 0-28.5-11.5T80-480q0-17 11.5-28.5T120-520h80q17 0 28.5 11.5T240-480q0 17-11.5 28.5T200-440h-80Zm720 0q-17 0-28.5-11.5T800-480q0-17 11.5-28.5T840-520h80q17 0 28.5 11.5T960-480q0 17-11.5 28.5T920-440h-80ZM480-720q-17 0-28.5-11.5T440-760v-80q0-17 11.5-28.5T480-880q17 0 28.5 11.5T520-840v80q0 17-11.5 28.5T480-720ZM224-680q-12 0-23-6t-17-18q-11-12-5.5-28t23.5-22l56-56q12-12 28-12.5t28 12.5q12 12 12.5 28.5T314-754l-56 56q-6 6-17 12t-17 6Zm512 512q-12 0-23-6t-17-18q-11-12-5.5-28t23.5-22l56-56q12-12 28-12.5t28 12.5q12 12 12.5 28.5T726-242l-56 56q-6 6-17 12t-17 6ZM224-224q-12 0-23-6t-17-18q-11-12-5.5-28t23.5-22l56-56q12-12 28-12.5t28 12.5q12 12 12.5 28.5T314-298l-56 56q-6 6-17 12t-17 6Zm512-512q-12 0-23-6t-17-18q-11-12-5.5-28t23.5-22l56-56q12-12 28-12.5t28 12.5q12 12 12.5 28.5T726-754l-56 56q-6 6-17 12t-17 6ZM480-480Z"/>';
+        } else {
+            // Moon Icon (Original)
+            themeIcon.innerHTML = '<path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>';
+        }
+    }
 });
