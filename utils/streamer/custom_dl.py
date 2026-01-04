@@ -15,6 +15,7 @@ class ByteStreamer:
         self.clean_timer = 30 * 60
         self.client: Client = client
         self.cached_file_ids: Dict[int, FileId] = {}
+        self.dc_options = None
         asyncio.create_task(self.clean_cache())
 
     async def get_file_properties(self, channel, message_id: int) -> FileId:
@@ -39,11 +40,30 @@ class ByteStreamer:
 
         if media_session is None:
             if file_id.dc_id != await client.storage.dc_id():
+                if not self.dc_options:
+                    config = await client.invoke(raw.functions.help.GetConfig())
+                    self.dc_options = config.dc_options
+
+                ip = None
+                port = None
+                for option in self.dc_options:
+                    if option.id == file_id.dc_id and not option.ipv6 and not option.cdn and not option.media_only:
+                        ip = option.ip_address
+                        port = option.port
+                        break
+                
+                if not ip:
+                    for option in self.dc_options:
+                        if option.id == file_id.dc_id and not option.ipv6 and not option.cdn:
+                            ip = option.ip_address
+                            port = option.port
+                            break
+
                 media_session = Session(
                     client,
                     file_id.dc_id,
                     await Auth(
-                        client, file_id.dc_id, await client.storage.test_mode()
+                        client, file_id.dc_id, ip, port, await client.storage.test_mode()
                     ).create(),
                     await client.storage.test_mode(),
                     is_media=True,
