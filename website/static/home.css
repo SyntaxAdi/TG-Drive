@@ -523,6 +523,12 @@
 }
 
 
+
+.directory .more-btn:hover {
+    background-color: #b9b9b9;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Theme Toggle & Dark Mode */
 .main-content .header {
     grid-template-columns: auto 1fr !important;
