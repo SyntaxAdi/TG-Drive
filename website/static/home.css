@@ -530,8 +530,9 @@
 }
 
 /* Theme Toggle & Dark Mode */
+/* Theme Toggle & Dark Mode */
 .main-content .header {
-    grid-template-columns: auto 1fr !important;
+    grid-template-columns: auto auto 1fr !important;
 }
 
 .theme-toggle-btn {
@@ -604,6 +605,17 @@ body.dark-mode .sidebar-menu .selected-item {
 
 body.dark-mode .sidebar-menu .unselected-item:hover {
     background-color: #2d2d2d;
+}
+
+/* Sidebar Collapsed State */
+.container.sidebar-collapsed {
+    grid-template-columns: 0px 1fr;
+}
+
+.container.sidebar-collapsed .sidebar {
+    padding: 0px;
+    overflow: hidden;
+    width: 0px;
 }
 
 body.dark-mode .main-content {
