@@ -39,26 +39,26 @@ class ByteStreamer:
         media_session = client.media_sessions.get(file_id.dc_id, None)
 
         if media_session is None:
-            if file_id.dc_id != await client.storage.dc_id():
-                if not self.dc_options:
-                    config = await client.invoke(raw.functions.help.GetConfig())
-                    self.dc_options = config.dc_options
+            if not self.dc_options:
+                config = await client.invoke(raw.functions.help.GetConfig())
+                self.dc_options = config.dc_options
 
-                ip = None
-                port = None
+            ip = None
+            port = None
+            for option in self.dc_options:
+                if option.id == file_id.dc_id and not option.ipv6 and not option.cdn and not option.media_only:
+                    ip = option.ip_address
+                    port = option.port
+                    break
+            
+            if not ip:
                 for option in self.dc_options:
-                    if option.id == file_id.dc_id and not option.ipv6 and not option.cdn and not option.media_only:
+                    if option.id == file_id.dc_id and not option.ipv6 and not option.cdn:
                         ip = option.ip_address
                         port = option.port
                         break
-                
-                if not ip:
-                    for option in self.dc_options:
-                        if option.id == file_id.dc_id and not option.ipv6 and not option.cdn:
-                            ip = option.ip_address
-                            port = option.port
-                            break
 
+            if file_id.dc_id != await client.storage.dc_id():
                 media_session = Session(
                     client,
                     file_id.dc_id,
@@ -96,6 +96,8 @@ class ByteStreamer:
                 media_session = Session(
                     client,
                     file_id.dc_id,
+                    ip,
+                    port,
                     await client.storage.auth_key(),
                     await client.storage.test_mode(),
                     is_media=True,
