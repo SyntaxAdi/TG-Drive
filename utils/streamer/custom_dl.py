@@ -62,6 +62,8 @@ class ByteStreamer:
                 media_session = Session(
                     client,
                     file_id.dc_id,
+                    ip,
+                    port,
                     await Auth(
                         client, file_id.dc_id, ip, port, await client.storage.test_mode()
                     ).create(),
